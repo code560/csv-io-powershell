@@ -1,5 +1,5 @@
 ‚Ð‚Æ‚Â‚ß,‚Ó‚½‚Â‚ß,‚Ý‚Á‚Â‚ß
 foo,foo,foo
-bar,,,
+bar,,"a,b,c"
 hoge,hogehoge,
 ,foo,bar

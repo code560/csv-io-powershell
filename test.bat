@@ -6,7 +6,8 @@ set LOG=log.txt
 
 set IN_FILE=foo.csv
 set TMP_FILE=tmp.dat
-set OUT_FILE=out\bar
+set OUT_DIR=.\out
+set OUT_FILE=bar
 
 del TMP_FILE >nul 2>&1
 del OUT_FILE >nul 2>&1
@@ -25,7 +26,9 @@ call :fnPS %.ps% >> %LOG% 2>&1
 
 @REM set .ps="$i=0; Get-Content %TMP_FILE%2 -ReadCount 1 | foreach {$_ | Out-File -Encoding Default -FilePath %OUT_FILE%_$i.csv; $i++;}"
 
-set .ps="$i=0; $h=(Get-Content %TMP_FILE%2)[0]; Get-Content %TMP_FILE%2 -ReadCount 1 | select -skip 1 | foreach {Out-File -InputObject $h -Encoding Default -FilePath %OUT_FILE%_$i.csv; $_ | Out-File -Encoding Default -FilePath %OUT_FILE%_$i.csv -Append; $i++;}"
+@REM set .ps="$i=0; $h=(Get-Content %TMP_FILE%2)[0]; Get-Content %TMP_FILE%2 -ReadCount 1 | select -skip 1 | foreach {Out-File -InputObject $h -Encoding Default -FilePath %OUT_FILE%_$i.csv; $_ | Out-File -Encoding Default -FilePath %OUT_FILE%_$i.csv -Append; $i++;}"
+
+set .ps="$h=(Get-Content %TMP_FILE%2)[0]; Get-Content %TMP_FILE%2 -ReadCount 1 | select -skip 1 | foreach {$one=$_.Split(',')[0]; Write-Host one: $one; $o='%OUT_DIR%\'+$one+'_%OUT_FILE%.csv'; Out-File -InputObject $h -Encoding Default -FilePath $o; $_ | Out-File -Encoding Default -FilePath $o -Append;}"
 
 call :fnPS %.ps% >> %LOG% 2>&1
 

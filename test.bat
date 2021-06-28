@@ -1,8 +1,13 @@
 @echo off
 setlocal
+pushd %~dp0
 
-call :fnPS >> log.txt
+@REM set .ps="Write-Host 'Hello World';"
 
+set .ps="$csv=Import-Csv -Encoding Default foo.csv; $csv | Export-Csv -NoTypeInformation -Delimiter ',' -Encoding Default -Path bar.csv;"
+call :fnPS %.ps% > log.txt 2>&1
+
+popd
 endlocal
 
 
@@ -10,9 +15,9 @@ REM -------
 :fnPS
 setlocal
 
-set CMD=powershell.exe -NoLogo -NonInteractive -C
-set PS="Write-Host 'Hello World';"
-call %CMD% %PS%
+set Cmd=powershell.exe -NoLogo -NonInteractive -C
+set Script="%~1"
+call %Cmd% %Script%
 
 endlocal
 exit /b %ERRORLEVEL%

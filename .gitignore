@@ -1,0 +1,6 @@
+*
+**/*
+
+!.gitignore
+!foo.csv
+!test.bat
